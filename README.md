@@ -1,5 +1,4 @@
-# DEMO-VUE
-##  项目运行
+###  项目运行
 
   全局安装 vue-cli  
   $ npm install -g vue-cli  
@@ -10,7 +9,7 @@
   $ npm install  
   $ npm run dev
 
-##  项目结构
+###  项目结构
     
   ├── dist              
   │   ├── build.js
@@ -28,7 +27,7 @@
   │   └── main.js        
   ├── index.html         
 
-##  项目说明
+###  项目说明
 
     技术：vue2 + vue-router + vuex + vue-resource构建的单页面应用。
     功能：宠物领养社区。
