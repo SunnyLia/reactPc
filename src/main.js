@@ -1,5 +1,4 @@
-import Vue from 'vue';
-
+﻿import Vue from 'vue';
 
 import router from './router/router';
 import store from './store/store';

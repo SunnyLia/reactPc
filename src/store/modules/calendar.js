@@ -1,6 +1,4 @@
-/**
- * Created by linhaifeng on 2016/11/24.
- */
+
 import * as types from '../mutation';
 
 const state = {

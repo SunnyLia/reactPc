@@ -1,6 +1,4 @@
-/**
- * Created by linhaifeng on 2016/11/18.
- */
+﻿
 import * as types from '../mutation';
 /*
 * 通用的配置，例如顶部的配置跟地址菜单

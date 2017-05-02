@@ -1,6 +1,4 @@
-/**
- * Created by linhaifeng on 2016/11/15.
- */
+﻿
 import api from '../../api/api';
 import * as types from '../mutation';
 

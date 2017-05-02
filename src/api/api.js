@@ -1,6 +1,4 @@
-/**
- * Created by linhaifeng on 2016/11/16.
- */
+﻿
 import axios from 'axios';
 
 export  default {

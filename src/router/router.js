@@ -1,6 +1,4 @@
-/**
- * Created by linhaifeng on 2016/10/28.
- */
+﻿
 import Vue from 'vue';
 import VueRouter from 'vueRouter';
 import App from '../app';

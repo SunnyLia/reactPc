@@ -1,6 +1,3 @@
-/**
- * Created by linhaifeng on 2016/11/15.
- */
 
 // import * as types from './mutation';
 //
