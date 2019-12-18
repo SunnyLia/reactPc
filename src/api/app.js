@@ -26,10 +26,9 @@ app.all('*',function (req, res, next) {
 })
 
 // mock 数据写法
-// 1、首页列表
-app.get('/homeLists', function (req, res) {
+app.get('/navMenus', function (req, res) {
   var result = {};
-  result = Mock.mock(jsonData.homeLists);
+  result = Mock.mock(jsonData.navMenus);
   res.end(JSON.stringify(result));
 })
 
