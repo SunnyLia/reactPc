@@ -11,7 +11,7 @@ module.exports = {
 			{
 				name: "首页",
 				children: [],
-				path: "/dashboard",
+				path: "/home",
 				icon: "el-icon-menu"
 			}, {
 				name: "内容管理",

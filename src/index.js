@@ -5,16 +5,17 @@ import store from './redux/store';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 // import * as serviceWorker from './serviceWorker';
 
-import Home from './pages';
+import Index from './pages';
+import Login from './pages/login';
 ReactDOM.render(
     <Provider store={store}>
         <HashRouter>
             <Switch>
-                {/* <Route path="/login" component={Login} /> */}
-                <Route component={Home} />
+                <Route path="/login" component={Login} />
+                <Route component={Index} />
             </Switch>
         </HashRouter>
-    </Provider>,
+    </Provider >,
     document.getElementById('root')
 );
 // serviceWorker.unregister();
