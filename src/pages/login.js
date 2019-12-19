@@ -6,8 +6,9 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let { from } = this.props.location.state
+        let state = this.props.location.state
         if (values.username == "admin" && values.password == "123") {
+          let from = state ? state.from : "/";
           sessionStorage.setItem("user", "admin")
           this.props.history.push(from)
         } else {

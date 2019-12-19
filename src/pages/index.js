@@ -14,7 +14,10 @@ class SiderDemo extends React.Component {
             collapsed: !this.state.collapsed,
         });
     };
-
+    loginOut = () => {
+        sessionStorage.removeItem("user");
+        this.props.history.push("/login")
+    }
     render() {
         return (
             <Layout style={{ height: '100%', width: '100%' }}>
@@ -56,10 +59,10 @@ class SiderDemo extends React.Component {
                                 <span>欢迎！张张你大爷</span>
                                 <Dropdown overlay={
                                     (
-                                        <Menu style={{marginRight:'12px'}}>
+                                        <Menu style={{ marginRight: '12px' }}>
                                             <Item>消息</Item>
                                             <Item>设置</Item>
-                                            <Item>退出</Item>
+                                            <Item onClick={this.loginOut}>退出</Item>
                                         </Menu>
                                     )
                                 }>
