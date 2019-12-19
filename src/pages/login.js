@@ -1,58 +1,67 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, message, Input, Button, Row } from 'antd';
 
 class NormalLoginForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        let { from } = this.props.location.state
+        if (values.username == "admin" && values.password == "123") {
+          sessionStorage.setItem("user", "admin")
+          this.props.history.push(from)
+        } else {
+          message.error("用户名或密码错误了哦~");
+        }
       }
     });
   };
-
+  handleReset = () => {
+    this.props.form.resetFields();
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
-        <Form.Item>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Password"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
-          </Button>
-          Or <a href="">register now!</a>
-        </Form.Item>
-      </Form>
+      <Row type="flex" justify="center" align="middle" style={{ height: "100%", paddingBottom: '150px' }}>
+        <Form onSubmit={this.handleSubmit} style={{ width: '250px' }}>
+          <Row type="flex" justify="center" style={{ padding: '0px 0 20px 60px' }}>
+            <img style={imgShadow} src="https://hbimg.huabanimg.com/322e523731a5022eed6c9da7a573ddee230d06b11bc5-lQSMDi_fw658" />
+          </Row>
+          <Form.Item {...formItemLayout} label="账户">
+            {getFieldDecorator('username', {
+              rules: [{ required: true, message: '请输入账户!' }],
+            })(
+              <Input placeholder="admin" />,
+            )}
+          </Form.Item>
+          <Form.Item {...formItemLayout} label="密码">
+            {getFieldDecorator('password', {
+              rules: [{ required: true, message: '请输入密码!' }],
+            })(
+              <Input type="password" placeholder="123" />,
+            )}
+          </Form.Item>
+          <Form.Item>
+            <Row type="flex" justify="space-around" style={{ padding: '0px 0 20px 60px' }}>
+              <Button type="primary" htmlType="submit">确认</Button>
+              <Button onClick={this.handleReset}>重置</Button>
+            </Row>
+          </Form.Item>
+        </Form>
+      </Row>
     );
   }
 }
 
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(NormalLoginForm);
 export default WrappedNormalLoginForm
+const imgShadow = {
+  width: '70px',
+  height: '70px',
+  borderRadius: '50%',
+  boxShadow: '0 0 15px 5px #ddd'
+}
+const formItemLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 18 },
+};
