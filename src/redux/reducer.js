@@ -8,11 +8,14 @@ const initState = {
 }
 
 const comDatas = (state = [], action) => {
-    switch (action.types) {
+    switch (action.type) {
         case types.NAV_MENUS:
             return action.payload
         default:
             return state
     }
 }
-export default comDatas
+export default combineReducers({
+    comDatas,
+    initState
+})

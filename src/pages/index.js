@@ -1,6 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Layout, Menu, Icon, Row, Dropdown } from 'antd';
+import { getNavMenu } from '../redux/action';
 import 'antd/dist/antd.css';
+import { Link } from 'react-router-dom';
 import Main from '../router';
 const { Header, Sider } = Layout;
 const { SubMenu, Item } = Menu;
@@ -14,11 +17,17 @@ class SiderDemo extends React.Component {
             collapsed: !this.state.collapsed,
         });
     };
+
     loginOut = () => {
         sessionStorage.removeItem("user");
         this.props.history.push("/login")
     }
+    componentDidMount() {
+        this.props.getNavMenu()
+    }
     render() {
+        console.log(this.props.navMenus);
+
         return (
             <Layout style={{ height: '100%', width: '100%' }}>
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
@@ -26,25 +35,47 @@ class SiderDemo extends React.Component {
                         <img style={{ width: '65px', borderRadius: '50%' }} src="https://hbimg.huabanimg.com/322e523731a5022eed6c9da7a573ddee230d06b11bc5-lQSMDi_fw658" />
                     </div>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                        <Item key="1">
-                            <Icon type="home" />
-                            <span>首页</span>
-                        </Item>
-                        <SubMenu
-                            key="sub2"
-                            title={
-                                <span>
-                                    <Icon type="appstore" />
-                                    <span>内容管理</span>
-                                </span>
-                            }
-                        >
-                            <Item key="5">客户查询</Item>
-                            <SubMenu key="sub3" title="工具处理">
-                                <Item key="7">上传中心</Item>
-                                <Item key="8">编辑中心</Item>
-                            </SubMenu>
-                        </SubMenu>
+                        {
+                            this.props.navMenus.length > 0 ? this.props.navMenus.map((v, i) => {
+                                return (
+                                    v.children.length > 0 ?
+                                        (
+                                            <SubMenu key={v.path}
+                                                title={
+                                                    <span>
+                                                        <Icon type={v.icon} />
+                                                        <span>{v.name}</span>
+                                                    </span>
+                                                }
+                                            >
+                                                {
+                                                    v.children.map((val, ind) => {
+                                                        return (
+                                                            val.children.length > 0 ?
+                                                                (
+                                                                    <SubMenu key={val.path} title={val.name}>
+                                                                        {
+                                                                            val.children.map((value) => {
+                                                                                return (<Item key={value.path}><Link to={value.path}>{value.name}</Link></Item>)
+                                                                            })
+                                                                        }
+                                                                    </SubMenu>
+                                                                ) : (<Item key={val.path}><Link to={val.path}>{val.name}</Link></Item>)
+                                                        )
+                                                    })
+                                                }
+                                            </SubMenu>
+                                        ) : (
+                                            <Item key={v.path}>
+                                                <Link to={v.path}>
+                                                    <Icon type={v.icon} />
+                                                    <span>{v.name}</span>
+                                                </Link>
+                                            </Item>
+                                        )
+                                )
+                            }) : null
+                        }
                     </Menu>
                 </Sider>
                 <Layout>
@@ -81,7 +112,17 @@ class SiderDemo extends React.Component {
         );
     }
 }
-export default SiderDemo;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        navMenus: state.comDatas
+    }
+}
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        getNavMenu: () => dispatch(getNavMenu())
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SiderDemo);
 const trigger = {
     fontSize: '20px',
     padding: '0 18px',

@@ -12,11 +12,11 @@ module.exports = {
 				name: "首页",
 				children: [],
 				path: "/home",
-				icon: "el-icon-menu"
+				icon: "home"
 			}, {
 				name: "内容管理",
-				path: "",
-				icon: "el-icon-tickets",
+				path: "/user",
+				icon: "appstore",
 				children: [
 					{
 						name: "客户查询",
@@ -25,7 +25,7 @@ module.exports = {
 					},
 					{
 						name: "工具处理",
-						path: "",
+						path: "/uploader",
 						children: [{
 							name: "上传中心",
 							path: "/uploader"
