@@ -1,23 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Layout, Menu, Icon, Row, Dropdown } from 'antd';
+import { Layout, Menu, Icon, Row, Dropdown, Tabs } from 'antd';
 import { getNavMenu } from '../redux/action';
 import 'antd/dist/antd.css';
 import { Link } from 'react-router-dom';
 import Main from '../router';
-const { Header, Sider } = Layout;
+const { Header, Sider, Content } = Layout;
 const { SubMenu, Item } = Menu;
 class SiderDemo extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { collapsed: false }
+        this.state = {
+            collapsed: false,
+            panes: [{ title: '首页', key: "/home", close: false }],
+            activeKey: "/home"
+        }
     }
     toggle = () => {
         this.setState({
             collapsed: !this.state.collapsed,
         });
     };
-
+    menuChange = (path, name) => {
+        if (this.props.location.pathname != path) {
+            this.props.history.push(path)
+            this.add(path, name)
+        }
+    }
     loginOut = () => {
         sessionStorage.removeItem("user");
         this.props.history.push("/login")
@@ -25,16 +34,51 @@ class SiderDemo extends React.Component {
     componentDidMount() {
         this.props.getNavMenu()
     }
+    add = (path, name) => {
+        var flag = this.state.panes.some(v => v.key == path);
+        if (!flag) {
+            this.state.panes.push({
+                title: name,
+                key: path,
+                close: true
+            });
+        }
+        this.setState({
+            panes: this.state.panes,
+            activeKey: path
+        });
+    };
+    remove = targetKey => {
+        let { panes, activeKey } = this.state
+        if (targetKey === activeKey) {
+            panes.forEach((pane, i) => {
+                if (pane.key === targetKey) { //找到当前
+                    let nextTab = panes[i + 1] || panes[i - 1];
+                    activeKey = nextTab.key
+                }
+            });
+            this.props.history.push(activeKey)
+        }
+        this.setState({
+            panes: panes.filter(tab => tab.key !== targetKey),
+            activeKey: activeKey
+        });
+    };
+    onChange = activeKey => {
+        this.props.history.push(activeKey)
+        this.setState({ activeKey });
+    };
+    onEdit = (targetKey, action) => {
+        this[action](targetKey);
+    };
     render() {
-        console.log(this.props.navMenus);
-
         return (
             <Layout style={{ height: '100%', width: '100%' }}>
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
                     <div style={{ textAlign: 'center' }}>
                         <img style={{ width: '65px', borderRadius: '50%' }} src="https://hbimg.huabanimg.com/322e523731a5022eed6c9da7a573ddee230d06b11bc5-lQSMDi_fw658" />
                     </div>
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+                    <Menu theme="dark" mode="inline" selectedKeys={this.state.activeKey}>
                         {
                             this.props.navMenus.length > 0 ? this.props.navMenus.map((v, i) => {
                                 return (
@@ -56,21 +100,33 @@ class SiderDemo extends React.Component {
                                                                     <SubMenu key={val.path} title={val.name}>
                                                                         {
                                                                             val.children.map((value) => {
-                                                                                return (<Item key={value.path}><Link to={value.path}>{value.name}</Link></Item>)
+                                                                                return (
+                                                                                    <Item key={value.path} onClick={this.menuChange.bind(this, value.path, value.name)}>
+                                                                                        {/* <Link to={value.path}> */}
+                                                                                        {value.name}
+                                                                                        {/* </Link> */}
+                                                                                    </Item>
+                                                                                )
                                                                             })
                                                                         }
                                                                     </SubMenu>
-                                                                ) : (<Item key={val.path}><Link to={val.path}>{val.name}</Link></Item>)
+                                                                ) : (
+                                                                    <Item key={val.path} onClick={this.menuChange.bind(this, val.path, val.name)}>
+                                                                        {/* <Link to={val.path}> */}
+                                                                        {val.name}
+                                                                        {/* </Link> */}
+                                                                    </Item>
+                                                                )
                                                         )
                                                     })
                                                 }
                                             </SubMenu>
                                         ) : (
-                                            <Item key={v.path}>
-                                                <Link to={v.path}>
-                                                    <Icon type={v.icon} />
-                                                    <span>{v.name}</span>
-                                                </Link>
+                                            <Item key={v.path} onClick={this.menuChange.bind(this, v.path, v.name)}>
+                                                {/* <Link to={v.path}> */}
+                                                <Icon type={v.icon} />
+                                                <span>{v.name}</span>
+                                                {/* </Link> */}
                                             </Item>
                                         )
                                 )
@@ -106,7 +162,20 @@ class SiderDemo extends React.Component {
 
                         </Row>
                     </Header>
-                    <Main />
+                    <Content style={{ padding: '20px' }}>
+                        <Tabs
+                            hideAdd
+                            onChange={this.onChange}
+                            activeKey={this.state.activeKey}
+                            type="editable-card"
+                            onEdit={this.onEdit}
+                        >
+                            {this.state.panes.map(pane => (
+                                <Tabs.TabPane tab={pane.title} key={pane.key} closable={pane.close}></Tabs.TabPane>
+                            ))}
+                        </Tabs>
+                        <Main />
+                    </Content>
                 </Layout>
             </Layout>
         );
