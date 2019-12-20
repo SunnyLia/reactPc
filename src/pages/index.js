@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Layout, Menu, Icon, Row, Dropdown, Tabs } from 'antd';
 import { getNavMenu } from '../redux/action';
 import 'antd/dist/antd.css';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import Main from '../router';
 const { Header, Sider, Content } = Layout;
 const { SubMenu, Item } = Menu;
@@ -32,6 +32,7 @@ class SiderDemo extends React.Component {
         this.props.history.push("/login")
     }
     componentDidMount() {
+        console.log(this.props)
         this.props.getNavMenu()
     }
     add = (path, name) => {
@@ -52,7 +53,7 @@ class SiderDemo extends React.Component {
         let { panes, activeKey } = this.state
         if (targetKey === activeKey) {
             panes.forEach((pane, i) => {
-                if (pane.key === targetKey) { //找到当前
+                if (pane.key === targetKey) { 
                     let nextTab = panes[i + 1] || panes[i - 1];
                     activeKey = nextTab.key
                 }
