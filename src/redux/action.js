@@ -24,3 +24,15 @@ export const getUserLists = () => {
             })
     }
 }
+export const getAddress = () => {
+    return dispatch => {
+        return fetch(serverUrl+"/getAddress")
+            .then(response => response.json())
+            .then(result => {
+                dispatch({
+                    type: types.ADDRESS,
+                    payload: result.data
+                });
+            })
+    }
+}

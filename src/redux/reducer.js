@@ -12,6 +12,16 @@ const userDatas = (state = initState, action) => {
                 ...state,
                 userLists:action.payload
             }
+        case types.ADDRESS:
+            return {
+                ...state,
+                address:action.payload
+            }
+        case types.DEL_USER_LISTS:
+            return {
+                ...state,
+                address:action.payload
+            }
         default:
             return state
     }
