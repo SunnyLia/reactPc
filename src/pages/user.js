@@ -7,7 +7,13 @@ import Modal1 from './component/modal';
 class HorizontalLoginForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      visible: false,
+      dialogTitle:'新增',
+      user: "",
+      region: [],
+      status: false
+    }
   }
   componentDidMount() {
     this.props.getUserLists()
@@ -18,6 +24,19 @@ class HorizontalLoginForm extends React.Component {
   };
   tableEdit = (row) => {
     console.log(row);
+    
+    this.setState({
+      visible: true,
+      dialogTitle:'编辑',
+      user: row.name,
+      region: row.address,
+      status: row.status === "1" ? true : false
+    });
+  }
+  toggleVisi = () => {
+    this.setState({
+      visible: !this.state.visible,
+    });
   }
   tableDel = (row) => {
     let that = this;
@@ -41,7 +60,7 @@ class HorizontalLoginForm extends React.Component {
     });
   };
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
@@ -71,7 +90,7 @@ class HorizontalLoginForm extends React.Component {
           </Form.Item>
         </Form>
         <div style={{ marginTop: '20px' }}>
-          <Button type="primary" >新增</Button>
+          <Button type="primary" onClick={()=>this.toggleVisi()}>新增</Button>
 
           <Table bordered dataSource={this.props.userLists.map((row, i) => ({ ...row, rowIndex: i + 1, key: i + 1 }))}>
             <Table.Column title="序号" dataIndex="rowIndex" align="center" />
@@ -94,7 +113,7 @@ class HorizontalLoginForm extends React.Component {
             />
           </Table>
         </div>
-        <Modal1 address={this.props.address}/>
+        <Modal1 address={this.props.address} onCancel={this.toggleVisi} modalData={this.state}/>
       </div>
     );
   }

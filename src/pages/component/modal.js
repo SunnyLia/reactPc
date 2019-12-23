@@ -3,35 +3,35 @@ import { Modal, Switch, Form, message, Input, Select } from 'antd';
 class LocalizedModal extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            visible: true,
-            user: "",
-            region: [],
-            status: false
-        };
+        // this.state = {
+        //     user: "",
+        //     region: [],
+        //     status: false
+        // };
     }
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log(values);
-
+                this.props.onCancel()
             }
-        });
+        }); 
     };
-    closeModal = () => {
-        this.setState({
-            visible: false,
-        });
+    componentDidMount(){
+        console.log("我进来了");
+        
     }
     render() {
         const { getFieldDecorator } = this.props.form;
+        console.log(this.props);
+        
         return (
             <Modal
-                title="新增"
-                visible={this.state.visible}
+                title={this.props.modalData.dialogTitle}
+                visible={this.props.modalData.visible}
                 onOk={this.handleSubmit}
-                onCancel={this.closeModal}
+                onCancel={this.props.onCancel}
                 okText="确认"
                 cancelText="取消"
                 width="400px"
@@ -39,7 +39,7 @@ class LocalizedModal extends React.Component {
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item {...formItemLayout} label="姓名">
                         {getFieldDecorator('user', {
-                            initialValue: this.state.user,
+                            initialValue: this.props.modalData.user,
                             rules: [{ required: true, message: '请输入姓名!' }],
                         })(
                             <Input placeholder="请输入" />,
@@ -47,7 +47,7 @@ class LocalizedModal extends React.Component {
                     </Form.Item>
                     <Form.Item {...formItemLayout} label="地址">
                         {getFieldDecorator('region', {
-                            initialValue: this.state.region,
+                            initialValue: this.props.modalData.region,
                             rules: [{ required: true, message: '请选择地址!' }],
                         })(
                             <Select placeholder="请选择" >
@@ -59,7 +59,7 @@ class LocalizedModal extends React.Component {
                     </Form.Item>
                     <Form.Item {...formItemLayout} label="发布">
                         {getFieldDecorator('status', {
-                            initialValue: this.state.status,
+                            initialValue: this.props.modalData.status,
                             valuePropName: 'checked'
                         })(
                             <Switch />
