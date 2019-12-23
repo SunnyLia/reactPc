@@ -6,31 +6,7 @@ import { getUserLists } from '../redux/action';
 class HorizontalLoginForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: [
-        {
-          key: '1',
-          name: 'John Brown',
-          age: 32,
-          address: 'New York No. 1 Lake Park',
-          status: ['nice', 'developer'],
-        },
-        {
-          key: '2',
-          name: 'Jim Green',
-          age: 42,
-          address: 'London No. 1 Lake Park',
-          status: ['loser'],
-        },
-        {
-          key: '3',
-          name: 'Joe Black',
-          age: 32,
-          address: 'Sidney No. 1 Lake Park',
-          status: ['cool', 'teacher'],
-        },
-      ]
-    }
+    this.state = {}
   }
   componentDidMount() {
     this.props.getUserLists()
@@ -79,16 +55,17 @@ class HorizontalLoginForm extends React.Component {
         <div style={{ marginTop: '20px' }}>
           <Button type="primary" >新增</Button>
 
-          <Table dataSource={this.props.userLists} >
-            <Table.Column title="姓名" dataIndex="name" key="name" />
-            <Table.Column title="日期" dataIndex="date" key="date" />
-            <Table.Column title="地址" dataIndex="address" key="address" />
-            <Table.Column title="状态" dataIndex="status" key="status"
+          <Table dataSource={this.props.userLists.map((row, i) => ({ ...row, rowIndex: i + 1, key: i + 1 }))}>
+            <Table.Column title="序号" dataIndex="rowIndex" align="center" />
+            <Table.Column title="姓名" dataIndex="name" align="center" />
+            <Table.Column title="日期" dataIndex="date" align="center" />
+            <Table.Column title="地址" dataIndex="address" align="center" />
+            <Table.Column title="状态" dataIndex="status" align="center"
               render={status => (
-                  status==1?(<Tag color="blue" key={status}>已发布</Tag>):(<Tag key={status}>未发布</Tag>)
+                status == 1 ? (<Tag color="blue">已发布</Tag>) : (<Tag>未发布</Tag>)
               )}
             />
-            <Table.Column title="Action" key="action"
+            <Table.Column title="Action" align="center"
               render={(text, record) => (
                 <span>
                   <a>编辑</a>
@@ -112,7 +89,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
-  
   return {
     getUserLists: () => dispatch(getUserLists())
   }
