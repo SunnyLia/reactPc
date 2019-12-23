@@ -31,7 +31,16 @@ app.get('/navMenus', function (req, res) {
   result = Mock.mock(jsonData.navMenus);
   res.end(JSON.stringify(result));
 })
-
+app.get('/getAddress', function (req, res) {
+  var result = {};
+  result = Mock.mock(jsonData.listAddress);
+  res.end(JSON.stringify(result));
+})
+app.get('/getUserLists', function (req, res) {
+  var result = {};
+  result = Mock.mock(jsonData.userLists);
+  res.end(JSON.stringify(result));
+})
 // 监听3000端口
 const server = app.listen(8080, function () {
 	console.log('listening at =====> http://127.0.0.1:8080...');

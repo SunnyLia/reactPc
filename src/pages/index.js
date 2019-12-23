@@ -32,7 +32,6 @@ class SiderDemo extends React.Component {
         this.props.history.push("/login")
     }
     componentDidMount() {
-        console.log(this.props)
         this.props.getNavMenu()
     }
     add = (path, name) => {

@@ -12,3 +12,15 @@ export const getNavMenu = () => {
             })
     }
 }
+export const getUserLists = () => {
+    return dispatch => {
+        return fetch(serverUrl+"/getUserLists")
+            .then(response => response.json())
+            .then(result => {
+                dispatch({
+                    type: types.USER_LISTS,
+                    payload: result.data
+                });
+            })
+    }
+}
