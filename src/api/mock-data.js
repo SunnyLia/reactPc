@@ -39,23 +39,24 @@ module.exports = {
 			}
 		]
 	},
-	'listAddress':	{
+	'listAddress': {
 		"msg": "操作成功",
 		"code": "200",
 		"state": "ok",
 		"data|6-9": [{
-			"province":"@province"
+			"province": "@province"
 		}]
 	},
-	'userLists':	{
+	'userLists': {
 		"msg": "操作成功",
 		"code": "200",
 		"state": "ok",
 		"data|6-15": [{
-			"name":"@cname",
-			"address":"@county(true)",
-			"date":"@date",
-			"status|1":["0","1"]
+			"name": "@cname",
+			"address": "@county(true)",
+			"date": "@date",
+			"id|+1": 0,
+			"status|1": ["0", "1"]
 		}]
 	}
 }

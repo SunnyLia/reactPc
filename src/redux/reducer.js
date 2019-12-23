@@ -10,17 +10,19 @@ const userDatas = (state = initState, action) => {
         case types.USER_LISTS:
             return {
                 ...state,
-                userLists:action.payload
+                userLists: action.payload
             }
         case types.ADDRESS:
             return {
                 ...state,
-                address:action.payload
+                address: action.payload
             }
         case types.DEL_USER_LISTS:
             return {
                 ...state,
-                address:action.payload
+                userLists: state.userLists.filter((item) => {
+                    return item.id !== action.id
+                })
             }
         default:
             return state

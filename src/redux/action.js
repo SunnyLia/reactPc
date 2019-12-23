@@ -2,7 +2,7 @@ import * as types from './action_types';
 const serverUrl = "http://127.0.0.1:8080";
 export const getNavMenu = () => {
     return dispatch => {
-        return fetch(serverUrl+"/navMenus")
+        return fetch(serverUrl + "/navMenus")
             .then(response => response.json())
             .then(result => {
                 dispatch({
@@ -14,7 +14,7 @@ export const getNavMenu = () => {
 }
 export const getUserLists = () => {
     return dispatch => {
-        return fetch(serverUrl+"/getUserLists")
+        return fetch(serverUrl + "/getUserLists")
             .then(response => response.json())
             .then(result => {
                 dispatch({
@@ -26,7 +26,7 @@ export const getUserLists = () => {
 }
 export const getAddress = () => {
     return dispatch => {
-        return fetch(serverUrl+"/getAddress")
+        return fetch(serverUrl + "/getAddress")
             .then(response => response.json())
             .then(result => {
                 dispatch({
@@ -34,5 +34,11 @@ export const getAddress = () => {
                     payload: result.data
                 });
             })
+    }
+}
+export const delUserLists = (id) => {
+    return {
+        type: types.DEL_USER_LISTS,
+        id
     }
 }

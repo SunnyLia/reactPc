@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Select, Input, Button, DatePicker, Table, Divider, Tag } from 'antd';
+import { Form, Select, Input, Button, DatePicker, Table, Divider, Tag, Modal } from 'antd';
 import locale from 'antd/es/date-picker/locale/zh_CN';
-import { getUserLists, getAddress } from '../redux/action';
+import { getUserLists, getAddress, delUserLists } from '../redux/action';
+import Modal1 from './component/modal';
 class HorizontalLoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -17,10 +18,18 @@ class HorizontalLoginForm extends React.Component {
   };
   tableEdit = (row) => {
     console.log(row);
-
   }
   tableDel = (row) => {
-    console.log(row);
+    let that = this;
+    Modal.confirm({
+      title: '提示',
+      content: '确定要删除该条数据？',
+      okText: '确认',
+      cancelText: '取消',
+      onOk() {
+        that.props.delUserLists(row.id)
+      }
+    });
 
   }
   handleSubmit = e => {
@@ -32,8 +41,7 @@ class HorizontalLoginForm extends React.Component {
     });
   };
   render() {
-    // console.log(this.props);
-
+    console.log(this.props);
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
@@ -86,6 +94,7 @@ class HorizontalLoginForm extends React.Component {
             />
           </Table>
         </div>
+        <Modal1 address={this.props.address}/>
       </div>
     );
   }
@@ -102,6 +111,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getUserLists: () => dispatch(getUserLists()),
+    delUserLists: (id) => dispatch(delUserLists(id)),
     getAddress: () => dispatch(getAddress())
   }
 }
