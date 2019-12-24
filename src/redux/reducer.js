@@ -40,23 +40,26 @@ const userDatas = (state = initState, action) => {
         case types.FILTER_QUERY:
             let { user, region, date } = action.result;
             var queryList = state.userLists;
-            if (user != "") { //筛选姓名
+            if (user) { //筛选姓名
                 queryList = queryList.filter((item) => {
                     return item.name == user
                 })
             }
-            if (region != "") { //筛选地址
+            if (region) { //筛选地址
                 queryList = queryList.filter((item) => {
                     return item.address.indexOf(region) != -1
                 })
             }
-            if (date != "") { //筛选日期
+            if (date) { //筛选日期
                 queryList = queryList.filter((item) => {
                     let dateItem = (new Date(item.date + " 00:00:00")).getTime();
-                    return (date[0].getTime() <= dateItem) && (dateItem <= date[1].getTime())
+                    return (date[0]._d.getTime() <= dateItem) && (dateItem <= date[1]._d.getTime())
                 })
             }
-            return queryList
+            return {
+                ...state,
+                userLists: queryList
+            }
         default:
             return state
     }

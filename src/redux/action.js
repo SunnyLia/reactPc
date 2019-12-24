@@ -48,7 +48,7 @@ export const addUserLists = (item) => {
         item
     }
 }
-export const editUserLists = (item) => {
+export const editUserLists = (item) => {   
     return {
         type: types.EDIT_USER_LISTS,
         item

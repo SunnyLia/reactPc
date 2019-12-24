@@ -55,8 +55,8 @@ module.exports = {
 			"name": "@cname",
 			"address": "@county(true)",
 			"date": "@date",
-			"id|+1": 0,
-			"status|1": ["0", "1"]
+			"status|1": ["0", "1"],
+			"id|+1": 0
 		}]
 	}
 }

@@ -15,15 +15,19 @@ class LocalizedModal extends React.Component {
             if (!err) {
                 let date = (new Date()).toLocaleDateString().replace(new RegExp("/", "g"), "-");
                 let status = values.status === true ? "1" : "0";
-                values = { ...values, date: date, id: date, status: status }
+                let { id, title } = this.props.modalData;
+                console.log(id);
+                id = title === "新增" ? date : id;
+                console.log(id);
+                
+                values = { ...values, date: date, id: id, status: status }
                 this.props.modalOK(values)
+                this.props.form.resetFields();
             }
         });
     };
     render() {
         const { getFieldDecorator } = this.props.form;
-        // console.log(this.props);
-
         return (
             <Modal
                 title={this.props.modalData.dialogTitle}
