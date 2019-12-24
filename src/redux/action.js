@@ -42,3 +42,21 @@ export const delUserLists = (id) => {
         id
     }
 }
+export const addUserLists = (item) => {
+    return {
+        type: types.ADD_USER_LISTS,
+        item
+    }
+}
+export const editUserLists = (item) => {
+    return {
+        type: types.EDIT_USER_LISTS,
+        item
+    }
+}
+export const filterQuery = (result) => {
+    return {
+        type: types.FILTER_QUERY,
+        result
+    }
+}

@@ -4,8 +4,8 @@ class LocalizedModal extends React.Component {
     constructor(props) {
         super(props);
         // this.state = {
-        //     user: "",
-        //     region: [],
+        //     name: "",
+        //     address: [],
         //     status: false
         // };
     }
@@ -13,19 +13,17 @@ class LocalizedModal extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log(values);
-                this.props.onCancel()
+                let date = (new Date()).toLocaleDateString().replace(new RegExp("/", "g"), "-");
+                let status = values.status === true ? "1" : "0";
+                values = { ...values, date: date, id: date, status: status }
+                this.props.modalOK(values)
             }
-        }); 
+        });
     };
-    componentDidMount(){
-        console.log("我进来了");
-        
-    }
     render() {
         const { getFieldDecorator } = this.props.form;
-        console.log(this.props);
-        
+        // console.log(this.props);
+
         return (
             <Modal
                 title={this.props.modalData.dialogTitle}
@@ -38,16 +36,16 @@ class LocalizedModal extends React.Component {
             >
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item {...formItemLayout} label="姓名">
-                        {getFieldDecorator('user', {
-                            initialValue: this.props.modalData.user,
+                        {getFieldDecorator('name', {
+                            initialValue: this.props.modalData.name,
                             rules: [{ required: true, message: '请输入姓名!' }],
                         })(
                             <Input placeholder="请输入" />,
                         )}
                     </Form.Item>
                     <Form.Item {...formItemLayout} label="地址">
-                        {getFieldDecorator('region', {
-                            initialValue: this.props.modalData.region,
+                        {getFieldDecorator('address', {
+                            initialValue: this.props.modalData.address,
                             rules: [{ required: true, message: '请选择地址!' }],
                         })(
                             <Select placeholder="请选择" >
