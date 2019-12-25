@@ -62,13 +62,17 @@ class Uploader extends React.Component {
     handlePreview = file => {
         if (!file.url && !file.preview) {
             getBase64(file.originFileObj, imgUrl => {
-                file.preview = imgUrl
+                this.setState({
+                    previewImage: imgUrl,
+                    previewVisible: true,
+                });
+            });
+        } else {
+            this.setState({
+                previewImage: file.url || file.preview,
+                previewVisible: true,
             });
         }
-        this.setState({
-            previewImage: file.url || file.preview,
-            previewVisible: true,
-        });
     };
     handleCancel = () => this.setState({ previewVisible: false });
     render() {
