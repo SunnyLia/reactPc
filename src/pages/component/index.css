@@ -1,0 +1,11 @@
+.ant-upload.ant-upload-select-picture-card > .ant-upload{
+    padding: 0!important;
+}
+.ant-upload-list-picture .ant-upload-list-item, .ant-upload-list-picture-card .ant-upload-list-item{
+    padding: 0!important;
+}
+.ant-upload-list-picture .ant-upload-list-item-name-icon-count-2, .ant-upload-list-picture-card .ant-upload-list-item-name-icon-count-2{
+    padding-right: 52px;
+    padding-left: 58px;
+    line-height: 62px;
+}

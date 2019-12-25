@@ -70,7 +70,8 @@ class HorizontalLoginForm extends React.Component {
       dialogTitle: '编辑',
       name: row.name,
       address: row.address,
-      status: row.status === "1" ? true : false
+      status: row.status === "1" ? true : false,
+      id: row.id
     });
   }
   // 表格新增按钮
@@ -91,9 +92,9 @@ class HorizontalLoginForm extends React.Component {
   }
   //弹框确认回调
   modalOK = (item) => {
-    if(this.state.dialogTitle === "新增"){
+    if (this.state.dialogTitle === "新增") {
       this.props.addUserLists(item)
-    }else{
+    } else {
       this.props.editUserLists(item)
     }
     this.toggleVisi()
