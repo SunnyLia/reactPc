@@ -52,7 +52,7 @@ class SiderDemo extends React.Component {
         let { panes, activeKey } = this.state
         if (targetKey === activeKey) {
             panes.forEach((pane, i) => {
-                if (pane.key === targetKey) { 
+                if (pane.key === targetKey) {
                     let nextTab = panes[i + 1] || panes[i - 1];
                     activeKey = nextTab.key
                 }
@@ -72,13 +72,17 @@ class SiderDemo extends React.Component {
         this[action](targetKey);
     };
     render() {
+        let pathName = this.props.location.pathname;
+        console.log(pathName);
         return (
             <Layout style={{ height: '100%', width: '100%' }}>
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
                     <div style={{ textAlign: 'center' }}>
                         <img style={{ width: '65px', borderRadius: '50%' }} src="https://hbimg.huabanimg.com/322e523731a5022eed6c9da7a573ddee230d06b11bc5-lQSMDi_fw658" />
                     </div>
-                    <Menu theme="dark" mode="inline" selectedKeys={this.state.activeKey}>
+                    <Menu theme="dark" mode="inline"
+                        defaultSelectedKeys={pathName == "/" ? this.state.activeKey : pathName}
+                    >
                         {
                             this.props.navMenus.length > 0 ? this.props.navMenus.map((v, i) => {
                                 return (
