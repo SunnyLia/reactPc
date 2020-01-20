@@ -12,7 +12,13 @@ class SiderDemo extends React.Component {
         super(props);
         this.state = {
             collapsed: false,
-            panes: [{ title: '首页', key: "/home", close: false }],
+            panes: [
+                { 
+                    title: '首页', 
+                    key: "/home", 
+                    close: false,
+                }
+            ],
             activeKey: "/home"
         }
     }
@@ -32,7 +38,14 @@ class SiderDemo extends React.Component {
         this.props.history.push("/login")
     }
     componentDidMount() {
-        this.props.getNavMenu()
+        this.props.getNavMenu();
+        // console.log(this.props);
+        if(this.props.location && this.props.location.pathname){
+
+            this.setState({
+                activeKey:this.props.location.pathname
+            })
+        }
     }
     add = (path, name) => {
         var flag = this.state.panes.some(v => v.key == path);
@@ -73,7 +86,6 @@ class SiderDemo extends React.Component {
     };
     render() {
         let pathName = this.props.location.pathname;
-        console.log(pathName);
         return (
             <Layout style={{ height: '100%', width: '100%' }}>
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
@@ -82,6 +94,7 @@ class SiderDemo extends React.Component {
                     </div>
                     <Menu theme="dark" mode="inline"
                         defaultSelectedKeys={pathName == "/" ? this.state.activeKey : pathName}
+                        selectedKeys={[this.state.activeKey]}
                     >
                         {
                             this.props.navMenus.length > 0 ? this.props.navMenus.map((v, i) => {
