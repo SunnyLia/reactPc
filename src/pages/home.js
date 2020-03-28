@@ -465,7 +465,7 @@ class Home extends React.Component {
           smooth: true,
           itemStyle: {
             normal: {
-              color: "#8ec6ad"
+              color: "rgba(0,183,238, 1)"
             }
           },
           markPoint: {
@@ -476,7 +476,7 @@ class Home extends React.Component {
               color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 {
                   offset: 0,
-                  color: "rgba(0,183,238, 1)"
+                  color: "rgba(0,183,238, 0.4)"
                 },
                 {
                   offset: 1,
@@ -486,7 +486,7 @@ class Home extends React.Component {
             }
           },
           barMaxWidth: 35,
-          data: [820, 932, 901, 934, 1290, 1330, 1320]
+          data: [620, 950, 850, 930, 1180, 1350, 1150]
         },
         {
           name: "还款",
@@ -494,7 +494,7 @@ class Home extends React.Component {
           smooth: true,
           itemStyle: {
             normal: {
-              color: "#d68262"
+              color: "rgba(86,199,60, 1)"
             }
           },
           areaStyle: {
@@ -512,7 +512,7 @@ class Home extends React.Component {
             }
           },
           barMaxWidth: 35,
-          data: [620, 732, 701, 834, 1090, 1130, 1020]
+          data: [300, 470, 400, 460, 600, 670, 500]
         }
       ]
     };
@@ -552,8 +552,8 @@ class Home extends React.Component {
         {
           name: "放款",
           type: "bar",
-          barMaxWidth: 25,
-          data: [320, 532, 1201, 1500, 730,1390,  420]
+          barMaxWidth: 20,
+          data: [320, 532, 1201, 1500, 730, 1390, 420]
         },
         {
           name: "还款",
@@ -561,8 +561,8 @@ class Home extends React.Component {
           markPoint: {
             data: [{ type: "max", name: "最大值" }]
           },
-          barMaxWidth: 25,
-          data: [620, 832, 1751, 1334, 830,  1090,620]
+          barMaxWidth: 20,
+          data: [620, 832, 1751, 1334, 830, 1090, 620]
         }
       ]
     };
@@ -633,7 +633,7 @@ class Home extends React.Component {
           // areaStyle: {normal: {}},
           data: [
             {
-              value: [1000, 932, 901, 934, 1290, 1330, 1320],
+              value: [1100, 932, 901, 934, 1290, 1330, 1320],
               name: "放款",
               areaStyle: {
                 normal: {
