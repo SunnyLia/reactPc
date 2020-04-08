@@ -86,6 +86,7 @@ class SiderDemo extends React.Component {
     };
     render() {
         let pathName = this.props.location.pathname;
+        
         return (
             <Layout style={{ height: '100%', width: '100%' }}>
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
@@ -93,8 +94,9 @@ class SiderDemo extends React.Component {
                         <img style={{ width: '65px', borderRadius: '50%' }} src="https://hbimg.huabanimg.com/322e523731a5022eed6c9da7a573ddee230d06b11bc5-lQSMDi_fw658" />
                     </div>
                     <Menu theme="dark" mode="inline"
-                        defaultSelectedKeys={pathName == "/" ? this.state.activeKey : pathName}
+                        // defaultSelectedKeys={pathName == "/" ? this.state.activeKey : pathName}
                         selectedKeys={[this.state.activeKey]}
+                        openKeys={[]}
                     >
                         {
                             this.props.navMenus.length > 0 ? this.props.navMenus.map((v, i) => {
