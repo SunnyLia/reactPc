@@ -10,29 +10,27 @@ module.exports = {
 		"data": [
 			{
 				name: "首页",
-				children: [],
 				path: "/home",
 				icon: "home"
 			}, {
 				name: "内容管理",
-				path: "/user",
+				path: "/cont",
 				icon: "appstore",
 				children: [
 					{
 						name: "客户查询",
-						path: "/user",
-						children: []
+						path: "/cont/user"
 					},
 					{
 						name: "工具处理",
-						path: "/uploader",
+						path: "/cont/deal",
 						children: [{
 							name: "上传中心",
-							path: "/uploader"
+							path: "/cont/deal/uploader"
 						},
 						{
 							name: "编辑中心",
-							path: "/editor"
+							path: "/cont/deal/editor"
 						}]
 					}
 				]
