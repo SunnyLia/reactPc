@@ -85,7 +85,8 @@ class SiderDemo extends React.Component {
         this[action](targetKey);
     };
     render() {
-        let pathName = this.props.location.pathname;
+        let pathName = (this.props.location.pathname);
+        let openKey = pathName.substring(0,pathName.lastIndexOf("/"))
         
         return (
             <Layout style={{ height: '100%', width: '100%' }}>
@@ -96,12 +97,12 @@ class SiderDemo extends React.Component {
                     <Menu theme="dark" mode="inline"
                         // defaultSelectedKeys={pathName == "/" ? this.state.activeKey : pathName}
                         selectedKeys={[this.state.activeKey]}
-                        openKeys={[]}
+                        openKeys={[openKey]}
                     >
                         {
                             this.props.navMenus.length > 0 ? this.props.navMenus.map((v, i) => {
                                 return (
-                                    v.children.length > 0 ?
+                                    v.children && v.children.length > 0 ?
                                         (
                                             <SubMenu key={v.path}
                                                 title={
@@ -112,13 +113,13 @@ class SiderDemo extends React.Component {
                                                 }
                                             >
                                                 {
-                                                    v.children.map((val, ind) => {
+                                                    v.children && v.children.map((val, ind) => {
                                                         return (
-                                                            val.children.length > 0 ?
+                                                            val.children && val.children.length > 0 ?
                                                                 (
                                                                     <SubMenu key={val.path} title={val.name}>
                                                                         {
-                                                                            val.children.map((value) => {
+                                                                            val.children && val.children.map((value) => {
                                                                                 return (
                                                                                     <Item key={value.path} onClick={this.menuChange.bind(this, value.path, value.name)}>
                                                                                         {/* <Link to={value.path}> */}

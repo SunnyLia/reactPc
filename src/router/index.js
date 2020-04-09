@@ -12,9 +12,9 @@ class Main extends React.Component {
             <Switch>
                 <Intercept exact path="/" component={Home} />
                 <Intercept path="/home" component={Home} />
-                <Intercept path="/editor" component={Editors} />
-                <Intercept path="/user" component={User} />
-                <Intercept path="/uploader" component={Uploader} />
+                <Intercept path="/cont/deal/editor" component={Editors} />
+                <Intercept path="/cont/user" component={User} />
+                <Intercept path="/cont/deal/uploader" component={Uploader} />
                 <Redirect to="/" />
             </Switch>
         );
