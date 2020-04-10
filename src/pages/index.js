@@ -13,9 +13,9 @@ class SiderDemo extends React.Component {
         this.state = {
             collapsed: false,
             panes: [
-                { 
-                    title: '首页', 
-                    key: "/home", 
+                {
+                    title: '首页',
+                    key: "/home",
                     close: false,
                 }
             ],
@@ -40,10 +40,10 @@ class SiderDemo extends React.Component {
     componentDidMount() {
         this.props.getNavMenu();
         // console.log(this.props);
-        if(this.props.location && this.props.location.pathname){
+        if (this.props.location && this.props.location.pathname) {
 
             this.setState({
-                activeKey:this.props.location.pathname
+                activeKey: this.props.location.pathname
             })
         }
     }
@@ -84,10 +84,16 @@ class SiderDemo extends React.Component {
     onEdit = (targetKey, action) => {
         this[action](targetKey);
     };
+    getOpenKeys = () => {
+        let pathName = (this.props.location.pathname).split("/");
+        let openKey = [], d = "";
+        for (let i = 1; i < pathName.length - 1; i++) {
+            d += "/" + pathName[i]
+            openKey.push(d)
+        }
+        return openKey;
+    };
     render() {
-        let pathName = (this.props.location.pathname);
-        let openKey = pathName.substring(0,pathName.lastIndexOf("/"))
-        
         return (
             <Layout style={{ height: '100%', width: '100%' }}>
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
@@ -97,7 +103,7 @@ class SiderDemo extends React.Component {
                     <Menu theme="dark" mode="inline"
                         // defaultSelectedKeys={pathName == "/" ? this.state.activeKey : pathName}
                         selectedKeys={[this.state.activeKey]}
-                        openKeys={[openKey]}
+                        defaultOpenKeys={this.getOpenKeys()}
                     >
                         {
                             this.props.navMenus.length > 0 ? this.props.navMenus.map((v, i) => {
