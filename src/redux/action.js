@@ -1,5 +1,10 @@
 import * as types from './action_types';
 const serverUrl = "http://127.0.0.1:8080";
+const interviewUrl = "/MANAGE-SERVICE";
+export const getCategory = () => {
+    return fetch(interviewUrl + "/category/get").then(response => response.json())
+}
+
 export const getNavMenu = () => {
     return dispatch => {
         return fetch(serverUrl + "/navMenus")
@@ -48,7 +53,7 @@ export const addUserLists = (item) => {
         item
     }
 }
-export const editUserLists = (item) => {   
+export const editUserLists = (item) => {
     return {
         type: types.EDIT_USER_LISTS,
         item

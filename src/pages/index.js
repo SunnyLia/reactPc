@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Layout, Menu, Icon, Row, Dropdown, Tabs } from 'antd';
+import { Layout, Menu, Icon, Row, Dropdown, Tabs, Breadcrumb } from 'antd';
 import { getNavMenu } from '../redux/action';
 import 'antd/dist/antd.css';
 // import { Link } from 'react-router-dom';
@@ -12,13 +12,6 @@ class SiderDemo extends React.Component {
         super(props);
         this.state = {
             collapsed: false,
-            panes: [
-                {
-                    title: '首页',
-                    key: "/home",
-                    close: false,
-                }
-            ],
             activeKey: "/home"
         }
     }
@@ -28,9 +21,9 @@ class SiderDemo extends React.Component {
         });
     };
     menuChange = (path, name) => {
-        if (this.props.location.pathname != path) {
-            this.props.history.push(path)
-            this.add(path, name)
+        const { location, history } = this.props;
+        if (location.pathname != path) {
+            history.push(path)
         }
     }
     loginOut = () => {
@@ -38,54 +31,19 @@ class SiderDemo extends React.Component {
         this.props.history.push("/login")
     }
     componentDidMount() {
-        this.props.getNavMenu();
-        // console.log(this.props);
-        if (this.props.location && this.props.location.pathname) {
-
+        const { getNavMenu, location } = this.props;
+        getNavMenu();
+        if (location && location.pathname) {
             this.setState({
-                activeKey: this.props.location.pathname
+                activeKey: location.pathname
             })
         }
     }
-    add = (path, name) => {
-        var flag = this.state.panes.some(v => v.key == path);
-        if (!flag) {
-            this.state.panes.push({
-                title: name,
-                key: path,
-                close: true
-            });
-        }
-        this.setState({
-            panes: this.state.panes,
-            activeKey: path
-        });
-    };
-    remove = targetKey => {
-        let { panes, activeKey } = this.state
-        if (targetKey === activeKey) {
-            panes.forEach((pane, i) => {
-                if (pane.key === targetKey) {
-                    let nextTab = panes[i + 1] || panes[i - 1];
-                    activeKey = nextTab.key
-                }
-            });
-            this.props.history.push(activeKey)
-        }
-        this.setState({
-            panes: panes.filter(tab => tab.key !== targetKey),
-            activeKey: activeKey
-        });
-    };
-    onChange = activeKey => {
-        this.props.history.push(activeKey)
-        this.setState({ activeKey });
-    };
-    onEdit = (targetKey, action) => {
-        this[action](targetKey);
-    };
+
+    // 根据路由获取当前展开的subMenu
     getOpenKeys = () => {
-        let pathName = (this.props.location.pathname).split("/");
+        const { location } = this.props;
+        let pathName = (location.pathname).split("/");
         let openKey = [], d = "";
         for (let i = 1; i < pathName.length - 1; i++) {
             d += "/" + pathName[i]
@@ -93,71 +51,58 @@ class SiderDemo extends React.Component {
         }
         return openKey;
     };
+    // 获取menu节点
+    getMenuNode = (data) => {
+        if (data.length) {
+            return data.map(item => {
+                if (item.children) {
+                    return (<SubMenu key={item.path} title={<><Icon type={item.icon} />{item.name}</>}>
+                        {this.getMenuNode(item.children)}
+                    </SubMenu>)
+                } else {
+                    return (<Item key={item.path} onClick={this.menuChange.bind(this, item.path, item.name)}>{item.icon ? <Icon type={item.icon} /> : null}{item.name}</Item>)
+                }
+            })
+        } else {
+            return null
+        }
+    }
+    getBreadcrumb = (data) => {
+        const { location } = this.props;
+        let pathUrl = []
+        data.some(item => {
+            if (item.path == location.pathname) {
+                pathUrl.unshift(item.name)
+                return true
+            }
+            if (item.children) {
+                let url = this.getBreadcrumb(item.children);
+                if (url.length) {
+                    pathUrl.unshift(item.name)
+                    pathUrl = pathUrl.concat(url)
+                    return true
+                }
+            }
+        })
+        return pathUrl
+    }
     render() {
+        const { navMenus, location } = this.props;
+        const { activeKey, collapsed } = this.state;
+        // let breadcrumbs = this.getBreadcrumb(navMenus);
+        let breadcrumbs = []
         return (
             <Layout style={{ height: '100%', width: '100%' }}>
-                <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+                <Sider trigger={null} collapsible collapsed={collapsed}>
                     <div style={{ textAlign: 'center' }}>
                         <img style={{ width: '65px', borderRadius: '50%' }} src="https://hbimg.huabanimg.com/322e523731a5022eed6c9da7a573ddee230d06b11bc5-lQSMDi_fw658" />
                     </div>
                     <Menu theme="dark" mode="inline"
-                        // defaultSelectedKeys={pathName == "/" ? this.state.activeKey : pathName}
-                        selectedKeys={[this.state.activeKey]}
+                        // defaultSelectedKeys={[location.pathname]}
+                        selectedKeys={[activeKey]}
                         defaultOpenKeys={this.getOpenKeys()}
                     >
-                        {
-                            this.props.navMenus.length > 0 ? this.props.navMenus.map((v, i) => {
-                                return (
-                                    v.children && v.children.length > 0 ?
-                                        (
-                                            <SubMenu key={v.path}
-                                                title={
-                                                    <span>
-                                                        <Icon type={v.icon} />
-                                                        <span>{v.name}</span>
-                                                    </span>
-                                                }
-                                            >
-                                                {
-                                                    v.children && v.children.map((val, ind) => {
-                                                        return (
-                                                            val.children && val.children.length > 0 ?
-                                                                (
-                                                                    <SubMenu key={val.path} title={val.name}>
-                                                                        {
-                                                                            val.children && val.children.map((value) => {
-                                                                                return (
-                                                                                    <Item key={value.path} onClick={this.menuChange.bind(this, value.path, value.name)}>
-                                                                                        {/* <Link to={value.path}> */}
-                                                                                        {value.name}
-                                                                                        {/* </Link> */}
-                                                                                    </Item>
-                                                                                )
-                                                                            })
-                                                                        }
-                                                                    </SubMenu>
-                                                                ) : (
-                                                                    <Item key={val.path} onClick={this.menuChange.bind(this, val.path, val.name)}>
-                                                                        {/* <Link to={val.path}> */}
-                                                                        {val.name}
-                                                                        {/* </Link> */}
-                                                                    </Item>
-                                                                )
-                                                        )
-                                                    })
-                                                }
-                                            </SubMenu>
-                                        ) : (
-                                            <Item key={v.path} onClick={this.menuChange.bind(this, v.path, v.name)}>
-                                                {/* <Link to={v.path}> */}
-                                                <Icon type={v.icon} />
-                                                <span>{v.name}</span>
-                                                {/* </Link> */}
-                                            </Item>
-                                        )
-                                )
-                            }) : null
-                        }
+                        {this.getMenuNode(navMenus)}
                     </Menu>
                 </Sider>
                 <Layout>
@@ -165,7 +110,7 @@ class SiderDemo extends React.Component {
                         <Row type="flex" justify="space-between" align="middle">
                             <Icon
                                 style={trigger}
-                                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                type={collapsed ? 'menu-unfold' : 'menu-fold'}
                                 onClick={this.toggle}
                             />
                             <div>
@@ -189,17 +134,9 @@ class SiderDemo extends React.Component {
                         </Row>
                     </Header>
                     <Content style={{ padding: '20px' }}>
-                        <Tabs
-                            hideAdd
-                            onChange={this.onChange}
-                            activeKey={this.state.activeKey}
-                            type="editable-card"
-                            onEdit={this.onEdit}
-                        >
-                            {this.state.panes.map(pane => (
-                                <Tabs.TabPane tab={pane.title} key={pane.key} closable={pane.close}></Tabs.TabPane>
-                            ))}
-                        </Tabs>
+                        <Breadcrumb>
+                            {breadcrumbs.map((item, ind) => <Breadcrumb.Item key={ind}>{item}</Breadcrumb.Item>)}
+                        </Breadcrumb>
                         <Main />
                     </Content>
                 </Layout>

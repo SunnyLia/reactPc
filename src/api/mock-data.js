@@ -13,27 +13,49 @@ module.exports = {
 				path: "/home",
 				icon: "home"
 			}, {
+				name: "面试题",
+				path: "/interview",
+				icon: "snippets",
+				children: [
+					{
+						name: "前端",
+						path: "/interview/front"
+					},
+					{
+						name: "后端",
+						path: "/interview/end"
+					}
+				]
+			}, {
 				name: "内容管理",
 				path: "/cont",
-				icon: "appstore",
+				icon: "unordered-list",
 				children: [
 					{
 						name: "客户查询",
 						path: "/cont/user"
 					},
 					{
-						name: "工具处理",
-						path: "/cont/deal",
-						children: [{
-							name: "上传中心",
-							path: "/cont/deal/uploader"
-						},
-						{
-							name: "编辑中心",
-							path: "/cont/deal/editor"
-						}]
+						name: "表格拖拽",
+						path: "/cont/dragTable"
 					}
 				]
+			}, {
+				name: "工具处理",
+				path: "/deal",
+				icon: "form",
+				children: [{
+					name: "上传中心",
+					path: "/deal/uploader"
+				},
+				{
+					name: "编辑中心",
+					path: "/deal/editor"
+				},
+				{
+					name: "甘特图",
+					path: "/deal/gannt",
+				}]
 			}
 		]
 	},

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Load Form Data - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.net/Application/Home/View/Public/js/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.net/Application/Home/View/Public/js/easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.net/Application/Home/View/Public/js/easyui/demo/demo.css">
+    <script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+    <div class="easyui-panel" title="New Topic" style="width:100%;max-width:400px;padding:30px 60px;">
+        <form id="ff" method="post">
+            <input class="easyui-textbox" style="width:100%"  name="city" data-options="label:'City:',required:true"></input>
+        </form>
+    </div>
+    <script>
+        var type = 0; //假如0代表textbox ,1代表combobox ,2代表datebox，3代表checkbox 
+        // 模拟接口返回
+        setTimeout(function () {
+            typeDomChoose(2); //假如接口获取到的type为2
+        }, 2000)
+        
+        function typeDomChoose(type) {
+            var str = "";
+            if(type == 0){
+                str = '<input class="easyui-textbox" name="name" style="width:100%" data-options="label:\'Name:\',required:true">'
+            }else if(type == 1){
+                str = '<select class="easyui-combobox" name="language" label="Language" style="width:100%">'+
+                        '<option value="zh-cht">Chinese Traditional</option>'+
+                        '<option value="en" selected="selected">English</option>'+
+                    '</select>'
+            }else if(type == 2){
+                str = '<input class="easyui-datebox" style="width:100%" data-options="label:\'Date:\',required:true">'
+            }else if(type == 3){
+                str = '<input class="easyui-checkbox" name="fruit" value="Apple" label="Apple:">'
+            }
+            $('#ff').append(str);
+            $.parser.parse(); 
+        }
+ 
+    </script>
+</body>
+
+</html>
